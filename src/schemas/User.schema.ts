@@ -15,7 +15,7 @@ export class User {
   @Prop({ required: false })
   avatarUrl?: string
 
-  @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'UserSettings'})
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'UserSettings' })
   settings?: UserSettings
 
 }
