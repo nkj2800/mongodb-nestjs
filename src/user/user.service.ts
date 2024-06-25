@@ -17,7 +17,6 @@ export class UserService {
   async createUser({ settings, ...createUserDto }: CreateUserDto) {
     if (settings) {
       const newSettings = new this.userSettingsModel(settings)
-      console.log(newSettings)
       const savedNewSettings = await newSettings.save()
       const newUser = new this.userModel({
         ...createUserDto,
@@ -33,11 +32,11 @@ export class UserService {
   }
 
   getUsers() {
-    return this.userModel.find().populate('settings')
+    return this.userModel.find().populate(['settings', 'posts'])
   }
 
   getUserById(id: string) {
-    return this.userModel.findById(id).populate('settings')
+    return this.userModel.findById(id).populate(['settings', 'posts'])
   }
 
   updateUser(id: string, values: UpdateUserDto) {
