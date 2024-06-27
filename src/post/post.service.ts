@@ -28,4 +28,34 @@ export class PostService {
     })
     return savedPost
   }
+
+  async deletePost(userId: string, id: string) {
+    const user = await this.userModel.findById(userId)
+
+    if (!user) throw new HttpException("User not found", 404)
+
+    await user.updateOne({
+      $pull: {
+        posts: id
+      }
+    }, { new: true })
+
+    await this.postModel.findByIdAndDelete(id)
+
+    return user
+  }
+
+  async deleteAllPosts(userId: string) {
+    const user = await this.userModel.findById(userId)
+
+    if (!user) throw new HttpException("User not found", 404)
+
+    await user.updateOne({ $set: { posts: [] } }, { new: true })
+
+    await this.postModel.deleteMany({})
+
+    return user
+  }
 }
+
+
